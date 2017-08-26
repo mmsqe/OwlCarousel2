@@ -134,15 +134,20 @@
 	 * @return {Timeout}
 	 */
 	Autoplay.prototype._getNextTimeout = function(timeout, speed) {
+		var nextTimeout = timeout || this._core.settings.autoplayTimeout;
 		if ( this._timeout ) {
 			window.clearTimeout(this._timeout);
+		} else if ( this._core.settings.isAnimateNow ) {
+			nextTimeout = 0;
 		}
 		return window.setTimeout($.proxy(function() {
 			if (this._paused || this._core.is('busy') || this._core.is('interacting') || document.hidden) {
-				return;
+				var fps = 60;
+				this._getNextTimeout(1000 / fps);
+			} else {
+				this._core.next(speed || this._core.settings.autoplaySpeed);
 			}
-			this._core.next(speed || this._core.settings.autoplaySpeed);
-		}, this), timeout || this._core.settings.autoplayTimeout);
+		}, this), nextTimeout);
 	};
 
 	/**

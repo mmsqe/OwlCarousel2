@@ -210,6 +210,7 @@
 		transitionTimingStyle: 'ease',
 		fallbackEasing: 'swing',
 
+		isAnimateNow: false,
 		info: false,
 
 		nestedItemSelector: false,
